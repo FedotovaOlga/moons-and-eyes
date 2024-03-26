@@ -52,11 +52,10 @@ class RegisterType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
-                'label' => 'Your Password',
                 'required' => true,
                 'constraints' => [new Length( 
                     [
-                        'min' => 6, 
+                        'min' => 4, 
                         'max' => 30
                     ] // Add a constraint to check the length of the password
                 )],
@@ -74,7 +73,11 @@ class RegisterType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Register'
+                'label' => 'Register',
+                'attr' => [
+                    'class' => 'btn btn-success' // Add a bootstrap class to the submit button
+                ]
+
             ]);
     }
 

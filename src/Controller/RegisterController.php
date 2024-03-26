@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller; // Define the namespace of the controller
 
 use App\Entity\User;
-use App\Form\RegisterType;
+use App\Form\RegisterType; // Call the namespace App\Form ans import the RegisterType form
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ class RegisterController extends AbstractController
             $this->entityManager->flush(); // Save the user to the database
         }
         return $this->render('register/register.html.twig', [
-            'form'=>$form->createView()
+            'registerForm'=>$form->createView()
         ]);
     }
 }
