@@ -48,7 +48,7 @@
 						<div class="speed-menu">
 							{% if app.user %}
 								<a href="{{ path('app_account') }}">
-									<i data-feather="user"></i>  
+									<i data-feather="user"></i>
 									{{app.user.firstname}}</a>
 							{% else %}
 								<a href="{{ path('app_login') }}">
@@ -123,30 +123,39 @@
 
 
 			<!-- Marketing messaging and featurettes
-			    ================================================== -->
+									    ================================================== -->
 			<!-- Wrap the rest of the page in another container to center all the content. -->
 
+			{# add top margin if block 'hero' is not here #}
 			<div class="container marketing {% if block ('hero') is not defined %} mt-5 {% endif %}">
-            {% block body %}
-            {% endblock %}
+					{# read and display all flash messages #}
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert mt-5 alert-{{ label }}">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endfor %}
 
-				</div>
-				<!-- /.container -->
+				{% block body %}{% endblock %}
 
-				<!-- FOOTER -->
-				<footer class="container">
-					<p class="float-right">
-						<a href="#">Back to top</a>
-					</p>
-					<p>&copy; 2017-2024 Moons and Eyes &middot;
-						<a href="#">Privacy</a>
-						&middot;
-						<a href="#">Terms</a>
-					</p>
-				</footer>
-			</main>
+			</div>
+			<!-- /.container -->
 
-			<script src="{{asset ('assets/js/bootstrap.bundle.min.js')}}"></script>
-			<script src="{{asset ('assets/js/global.js')}}"></script>
-		</body>
-	</html>
+			<!-- FOOTER -->
+			<footer class="container">
+				<p class="float-right">
+					<a href="#">Back to top</a>
+				</p>
+				<p>&copy; 2017-2024 Moons and Eyes &middot;
+					<a href="#">Privacy</a>
+					&middot;
+					<a href="#">Terms</a>
+				</p>
+			</footer>
+		</main>
+
+		<script src="{{asset ('assets/js/bootstrap.bundle.min.js')}}"></script>
+		<script src="{{asset ('assets/js/global.js')}}"></script>
+	</body>
+</html>
