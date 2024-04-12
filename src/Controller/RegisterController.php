@@ -3,7 +3,7 @@
 namespace App\Controller; // Define the namespace of the controller
 
 use App\Entity\User;
-use App\Form\RegisterType; // Call the namespace App\Form ans import the RegisterType form
+use App\Form\RegisterUserType; // Call the namespace App\Form ans import the RegisterType form
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +26,7 @@ class RegisterController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
-        $form = $this->createForm(RegisterType::class, $user);
+        $form = $this->createForm(RegisterUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

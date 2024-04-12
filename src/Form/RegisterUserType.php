@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
-class RegisterType extends AbstractType
+class RegisterUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -72,31 +72,6 @@ class RegisterType extends AbstractType
                     ],
                 ],
             ])
-
-            // ->add('plainPassword', RepeatedType::class, [
-            //     'type' => PasswordType::class,
-            //     'required' => true,
-            //     'constraints' => [new Length( 
-            //         [
-            //             'min' => 4, 
-            //             'max' => 30
-            //         ] // Add a constraint to check the length of the password
-            //     )],
-            //     'first_options' => [
-            //         'label' => 'Password',
-            //         'attr' => [
-            //             'placeholder' => 'Please choose your password'
-            //         ],
-            //         'hash_property_path' => 'password'
-            //     ],
-            //     'second_options' => [
-            //         'label' => 'Repeat Password',
-            //         'attr' => [
-            //             'placeholder' => 'Please confirm your password'
-            //         ],
-            //     ],
-            //     'mapped' => false,
-            // ])
 
             ->add('submit', SubmitType::class, [
                 'label' => 'Register',
