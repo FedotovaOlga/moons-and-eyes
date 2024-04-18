@@ -102,11 +102,13 @@ class Product
         return $this;
     }
     
-    public function getPriceWt()
+    public function getPriceWt() // function to count price with tax
     {
         $coeff = 1 + ($this->vat/100);
         $priceWithTax = $coeff * $this->price;
-        return round($priceWithTax, 2);
+        // return round($priceWithTax, 2);
+        return $priceWithTax;
+
     }
 
     public function getVat(): ?float

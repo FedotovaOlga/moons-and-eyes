@@ -32,12 +32,24 @@ class ProductCrudController extends AbstractCrudController
     // Fields to be displayed on the CRUD
     public function configureFields(string $pageName): iterable
     {
+        $required = true;
+        if ($pageName == 'edit')
+        {
+            $required = false;
+        } // The image of the product is not required for the modification
+
         return [
 
             TextField::new('name')->setLabel('Product Name')->setHelp('The name of your product'), // The name of the product
             SlugField::new('slug')->setTargetFieldName('name')->setLabel('URL')->setHelp('The URL of your product generated automatically'), // The URL of the product
             TextEditorField::new('description')->setLabel('Product Description')->setHelp('The description of your product'), // The description of the product
-            ImageField::new('illustration')->setLabel('Image')->setHelp('The image of your product of 600x600px')->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')->setBasePath('/uploads')->setUploadDir('/public/uploads')->setRequired(false), // The image of the product ; required false for the modification
+            ImageField::new('illustration')
+            ->setLabel('Image')
+            ->setHelp('The image of your product of 600x600px')
+            ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
+            ->setBasePath('/uploads')
+            ->setUploadDir('/public/uploads')
+            ->setRequired($required),
             NumberField::new('price')->setLabel('Price W.T.')->setHelp('The price of your product W.T. without the € symbol'), // The price of the product
     
             ChoiceField::new('vat')->setLabel('VAT rate')->setChoices([
