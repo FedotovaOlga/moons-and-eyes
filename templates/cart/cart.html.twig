@@ -16,7 +16,10 @@
 							</span>
 						</div>
 						<div class="col-md-2" "text-right">
-						<a href="{{path ('app_cart_decrease', {id : product.object.id})}}">-</a> <span class="badge text-bg-secondary">x{{ product.quantity}}</span> <a href="{{path ('app_cart_add', { id : product.object.id})}}"> +</a>
+							<a href="{{path ('app_cart_decrease', {id : product.object.id})}}">-</a>
+							<span class="badge text-bg-secondary">x{{ product.quantity}}</span>
+							<a href="{{path ('app_cart_add', { id : product.object.id})}}">
+								+</a>
 						</div>
 						<div class="col-md-2">
 							<strong>{{ (product.quantity * product.object.pricewt) | price}}</strong>
@@ -28,7 +31,19 @@
 
 			</div>
 			<div class="col-md-4">
-				Cart Summary (price, Command button, etc.)
+				<div class="bg-light p-3">
+					<div class="d-flex justify-content-between">
+						<span class="fw-bold">Total of products:</span>
+						<span>{{fullCartQuantity}}</span>
+					</div>
+					<div class="d-flex justify-content-between mt-3">
+						<span class="fw-bold">Total price With Tax:</span>
+						<span>{{totalWt | price}}</span>
+					</div>
+					<div>
+						<a href="" class="btn btn-success w-100 mt-3">Commander</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
