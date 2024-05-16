@@ -11,6 +11,7 @@ class ProductController extends AbstractController
 {
     #[Route('/product/{slug}', name: 'app_product')]
     public function index($slug, ProductRepository $productRepository): Response
+
     {
         $product = $productRepository->findOneBySlug($slug);
 
