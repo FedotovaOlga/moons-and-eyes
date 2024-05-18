@@ -2,6 +2,7 @@
 
 namespace App\Controller\Account;
 
+use App\Class\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\AddressUserType;
@@ -51,7 +52,7 @@ class AddressController extends AbstractController
 // Route for adding or modifying an address :
 
     #[Route('/account/address/add/{id}', name: 'app_account_address_form', defaults: ['id' => null])]
-    public function form(Request $request, $id, AddressRepository $addressRepository): Response
+    public function form(Request $request, $id, AddressRepository $addressRepository, Cart $cart): Response
     {
         if ($id) {
             $address = $addressRepository->findOneById($id); // Get the address by id
@@ -75,6 +76,11 @@ class AddressController extends AbstractController
                 'success',
                 "Your address has been saved successfully!"
             ); // Add a flash message
+
+           if ($cart->fullQuantity() > 0) {
+            return $this ->redirectToRoute('app_order'); // Redirect to the order page if there is something in the cart
+           }
+           
             return $this->redirectToRoute('app_account_addresses'); // Redirect to the addresses page
         }
 

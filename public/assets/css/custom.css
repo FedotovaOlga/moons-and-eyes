@@ -87,3 +87,13 @@
 .bg-light-violet {
     background-color: #e2e2fb;
 }
+
+#order_addresses .form-check, #order_carriers .form-check{
+    background-color: #e0e7ff;
+    padding: 10px 40px;
+}
+
+.small-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
