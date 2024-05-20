@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Class\Cart;
+use App\Entity\Order;
+use App\Entity\OrderDetail;
 use App\Form\OrderType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,8 +42,12 @@ class OrderController extends AbstractController
     * Preparation of Stripe payment
     */
     #[Route('/order/summary', name: 'app_order_summary')]
-    public function add(Request $request, Cart $cart): Response
+    public function add(Request $request, Cart $cart, EntityManagerInterface $entityManager): Response
     {
+        if ($request->getMethod() != 'POST') {
+            return $this->redirectToRoute('app_cart');
+        }
+        $products = $cart->getCart();
         $form = $this->createForm(OrderType::class, null, [
             'addresses' => $this->getUser()->getAddresses(),
         ]);
@@ -48,13 +55,41 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // dd($form->getData());
             // Store information in database
-        }
+
+            // Creation of the address string
+            $addressObj = $form->get('addresses')->getData();
+            $address = $addressObj->getFirstname().' '.$addressObj->getLastname().'<br>';
+            $address .= $addressObj->getAddress().'<br>';
+            $address .= $addressObj->getPostal().' '.$addressObj->getCity().'<br>';
+            $address .= $addressObj->getCountry().'<br>';
+            $address .= $addressObj->getPhone();
+
+            $order = new Order();
+            $order->setUser($this->getUser());
+            $order->setCreatedAt(new \DateTime());
+            $order->setState(1);
+            $order->setCarrierName($form->get('carriers')->getData()->getName());
+            $order->setCarrierPrice($form->get('carriers')->getData()->getPrice());
+            $order->setDelivery($address);
+        };
+
+        foreach ($products as $product) {
+            $orderDetail = new OrderDetail();
+            $orderDetail->setProductName($product['object']->getName());
+            $orderDetail->setProductIllustration($product['object']->getIllustration());
+            $orderDetail->setProductPrice($product['object']->getPrice());
+            $orderDetail->setProductVat($product['object']->getVat());
+            $orderDetail->setProductQuantity($product['quantity']);
+            $order->addOrderDetail($orderDetail); // Add the order detail to the order
+        };
+
+        $entityManager->persist($order);
+        $entityManager->flush();
 
         return $this->render('order/summary.html.twig', [
             'choices' => $form->getData(),
-            'cart'=> $cart->getCart(),
+            'cart'=> $products,
             'totalWt' => $cart->getTotalWt(),
         ]);
     }

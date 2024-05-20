@@ -1,0 +1,7 @@
+{% if field.value == 1 %}
+	<span class="badge text-bg-secondary">Waiting for payment</span>
+{% elseif field.value == 2 %}
+	<span class="badge text-bg-success">Payment validated</span>
+{% elseif field.value == 3 %}
+	<span class="badge text-bg-primary">Shipped</span>
+{% endif %}

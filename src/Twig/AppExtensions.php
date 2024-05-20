@@ -23,7 +23,7 @@ class AppExtensions extends AbstractExtension implements GlobalsInterface
     public function getFilters()
     {
         return [
-            new TwigFilter('price', [$this, 'formatPrice']) // 1st argument : name of filter; 2nd argument : current object concerned by the class (AppExtensions); 3rd argument : name of the function to use on the filter, 
+            new TwigFilter('price', [$this, 'formatPrice']) // 1st argument : name of filter; 2nd argument : current object concerned by the class (AppExtensions); 3rd argument : name of the function to use on the filter 
         ];
     }
 

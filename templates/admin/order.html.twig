@@ -1,0 +1,74 @@
+{% extends "@!EasyAdmin/layout.html.twig" %}
+
+{% block main %}
+	<h3>Commande n°
+		{{order.id}}</h3>
+	{{ include ("admin/state.html.twig", {field : {"value" : order.state}}
+	) }}
+	<br>
+	<br>
+	<span>Created at:
+		{{order.createdAt| date("d/m/Y")}}
+	</span>
+	<div class="row my-4">
+		<div class="col-md-6">
+			<strong>Delivery address:</strong><br>
+			{{order.delivery|raw}}
+		</div>
+		<div class="col-md-6">
+			<strong>Carrier:</strong><br>
+			{{order.carrierName}}
+		</div>
+	</div>
+
+	<strong>Order content:</strong><br>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Illustration</th>
+				<th scope="col">Product name</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Unit Price Without Tax</th>
+				<th scope="col">VAT</th>
+				<th scope="col">Total Price With Tax</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		{% for product in order.orderDetails %}
+			<tr>
+				<td>
+					<img src="/uploads/{{product.productIllustration}} " width="100px" alt="">
+				</td>
+				<td>{{product.productName}}</td>
+				<td>{{product.productQuantity}}</td>
+				<td>{{product.productPrice| price}}</td>
+				<td>{{product.productVat}}%</td>
+				{% set coeff = 1 + (product.productVat / 100) %}
+				<td>{{((product.productPrice * coeff) * product.productQuantity)| price}}</td>
+			</tr>
+		{% endfor %}
+		<tr>
+			<td><strong>Carrier :</strong></td>
+			<td>{{order.carrierName}}
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>{{order.carrierPrice| price}}
+			</td>
+		</tr>
+	</table>
+
+	<div class="text-right fs-5">
+		<strong>Total Without Tax :
+			{{(order.totalWt - order.totalVat)| price}}
+		</strong><br>
+		<strong>Total VAT :
+			{{order.totalVat| price}}
+		</strong><br>
+		<strong>Total With Tax :
+			{{order.totalWt| price}}
+		</strong><br>
+	</div>
+{% endblock %}

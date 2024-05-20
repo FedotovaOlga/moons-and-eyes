@@ -20,6 +20,11 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    /*
+    * 1 : Waiting for payment
+    * 2 : Payment validated
+    * 3 : Shipped
+    */
     #[ORM\Column]
     private ?int $state = null;
 
@@ -32,12 +37,41 @@ class Order
     #[ORM\Column(type: Types::TEXT)]
     private ?string $delivery = null;
 
-    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'myOrder')]
+    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'myOrder', cascade: ['persist'])]
     private Collection $orderDetails;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
+    }
+
+    public function getTotalWt()
+    {
+        $totalWt = 0;
+        $products = $this->getOrderDetails();
+        foreach ($products as $product)
+        {
+            $coeff = 1 + ($product->getProductVat() / 100);
+            $totalWt += ($product->getProductPrice() * $coeff) * $product->getProductQuantity();
+        }
+        return $totalWt + $this->getCarrierPrice();  
+    }
+
+    public function getTotalVat()
+    {
+        $totalVat = 0;
+        $products = $this->getOrderDetails();
+
+        foreach ($products as $product)
+        {
+            $coeff = $product->getProductVat() / 100;
+            $totalVat += $product->getProductPrice() * $coeff;
+        }
+        return $totalVat;  
     }
 
     public function getId(): ?int
@@ -131,6 +165,18 @@ class Order
                 $orderDetail->setMyOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
