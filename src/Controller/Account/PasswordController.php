@@ -25,7 +25,7 @@ class PasswordController extends AbstractController
 // Route for modifying of the password :
 
     #[Route('/account/modify-password', name: 'app_account_modify_pwd')]
-    public function index(Request $request, UserPasswordHasherInterface $passwordHasher): Response // inject dependency (object) Request that we put into variable $request
+    public function index(Request $request, UserPasswordHasherInterface $passwordHasher): Response // inject dependency (object) that we put into variable 
     {
         $user = $this->getUser(); // Get the current user
         $form = $this->createForm(PasswordUserType::class, $user, [
@@ -39,7 +39,6 @@ class PasswordController extends AbstractController
         $form->handleRequest($request); // Listen and handle the request
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $passHash = $form->get('password')->getData(); // Get the password from the form
             $newPassword = $passwordHasher->hashPassword($user, $passHash); // Hash the password
             $user->setPassword($newPassword); // Set the new password

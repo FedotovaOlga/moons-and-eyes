@@ -4,12 +4,12 @@
 	<div class="container my-5">
 		<div class="row">
 			<div class="col-md-6">
-				<img src="/uploads/{{product.illustration}}" class="img-fluid" alt="{{product.name}}">
+				<img src="/uploads/products/{{product.illustration}}" class="img-fluid" alt="{{product.name}}">
 			</div>
 			<div class="col-md-6">
 				<small>
 					<i>
-						<a href="{{ path ( 'app_category', {slug: product.category.slug} ) }} ">{{ product.category.name }}</a>
+						<a href="{{ path ( 'app_category', {slug: product.category.slug} ) }} " class="link">{{ product.category.name }}</a>
 						>
 						{{product.name}}</i>
 				</small>
@@ -18,11 +18,7 @@
 				<span class="d-block mb-3">{{product.pricewt| price}}</span>
 				{{product.description|raw}}
                 <a href="{{path ('app_cart_add', { id : product.id})}}" class="btn btn-dark w-100 mt-3">Add to cart</a>
-
 			</div>
-
 		</div>
-
-
 	</div>
 {% endblock %}

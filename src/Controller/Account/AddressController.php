@@ -80,7 +80,6 @@ class AddressController extends AbstractController
            if ($cart->fullQuantity() > 0) {
             return $this ->redirectToRoute('app_order'); // Redirect to the order page if there is something in the cart
            }
-           
             return $this->redirectToRoute('app_account_addresses'); // Redirect to the addresses page
         }
 

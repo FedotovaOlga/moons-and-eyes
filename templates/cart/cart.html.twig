@@ -7,7 +7,7 @@
 				{% for product in cart %}
 					<div class="row mt-2">
 						<div class="col-md-2">
-							<img src="/uploads/{{ product.object.illustration }}" class="img-fluid" alt="{{ product.object.name}}">
+							<img src="/uploads/products/{{ product.object.illustration }}" class="img-fluid" alt="{{ product.object.name}}">
 						</div>
 						<div class="col-md-6">
 							<strong>{{ product.object.name}}</strong>
@@ -16,9 +16,9 @@
 							</span>
 						</div>
 						<div class="col-md-2" "text-right">
-							<a href="{{path ('app_cart_decrease', {id : product.object.id})}}">-</a>
+							<a href="{{path ('app_cart_decrease', {id : product.object.id})}}" class="link">-</a>
 							<span class="badge text-bg-secondary">x{{ product.quantity}}</span>
-							<a href="{{path ('app_cart_add', { id : product.object.id})}}">
+							<a href="{{path ('app_cart_add', { id : product.object.id})}}" class="link">
 								+</a>
 						</div>
 						<div class="col-md-2">
@@ -26,7 +26,7 @@
 						</div>
 					</div>
 				{% endfor %}
-				<a href="{{path ('app_cart_remove')}}" class="small d-block mt-3">Clear the cart</a>
+				<a href="{{path ('app_cart_remove')}}" class="small d-block mt-3 link">Clear the cart</a>
 
 
 			</div>

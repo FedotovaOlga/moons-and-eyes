@@ -32,9 +32,7 @@ class OrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-
         $show = Action::new('Details')->linkToCrudAction('show');
-
         return $actions
             ->add(Crud::PAGE_INDEX, $show)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
@@ -49,7 +47,6 @@ class OrderCrudController extends AbstractCrudController
             'order' => $order, // at the left site is the name of the variable that will be used in the template and at the right side is the value of the variable that we created above
         ]);
     }
-
 
     public function configureFields(string $pageName): iterable
     {

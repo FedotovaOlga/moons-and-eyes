@@ -30,19 +30,15 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $form->getData(); // Get the user data from the form
-            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword()); // Hash the password
+            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword()); // Hash password
             $user->setPassword($hashedPassword); // Set the hashed password
-
             $this->entityManager->persist($user); // Persist the user to the database
             $this->entityManager->flush(); // Save the user to the database
-
             $this->addFlash(
                 'success',
                 "Your account has been created successfully! You can login now."
             ); // Add a flash message
-
             return $this->redirectToRoute('app_login'); // Redirect to the login page
         }
         return $this->render('register/register.html.twig', [

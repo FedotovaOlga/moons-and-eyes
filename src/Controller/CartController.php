@@ -25,12 +25,10 @@ class CartController extends AbstractController
     {
         $product = $productRepository->findOneById($id);
         $cart->add($product);
-
         $this->addFlash(
             'success',
             "Product added to cart successfully!"
         ); // Add a flash message
-
         return $this->redirect($request->headers->get('referer'));
     }
 
@@ -38,12 +36,10 @@ class CartController extends AbstractController
     public function decrease($id, Cart $cart): Response
     {
         $cart->decrease($id);
-
         $this->addFlash(
             'success',
             "Product removed from cart successfully!"
         ); // Add a flash message
-
         return $this->redirectToRoute('app_cart');
     }
 
@@ -51,7 +47,6 @@ class CartController extends AbstractController
     public function remove(Cart $cart): Response
     {
         $cart->remove();
-
         return $this->redirectToRoute('app_home');
     }
 }

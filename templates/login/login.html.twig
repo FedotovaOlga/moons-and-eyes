@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
 
 	<form method="post">
@@ -42,5 +41,7 @@
 		</button>
 	</form>
 	<br>
-	You do not have an account yet? <a href="{{ path('app_register')}} ">You can create it here</a>
+	<div class="mb-4">
+	You do not have an account yet? <a href="{{ path('app_register')}}" class="link">You can create it here</a>
+	</div>
 {% endblock %}

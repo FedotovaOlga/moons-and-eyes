@@ -47,8 +47,8 @@ class ProductCrudController extends AbstractCrudController
             ->setLabel('Image')
             ->setHelp('The image of your product of 600x600px')
             ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
-            ->setBasePath('/uploads')
-            ->setUploadDir('/public/uploads')
+            ->setBasePath('/uploads/products')
+            ->setUploadDir('/public/uploads/products')
             ->setRequired($required),
             NumberField::new('price')->setLabel('Price W.T.')->setHelp('The price of your product W.T. without the € symbol'), // The price of the product
     

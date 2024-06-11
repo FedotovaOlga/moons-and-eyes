@@ -19,7 +19,6 @@ class Cart
     {
         // call symfony session
         $cart = $this->getCart();
-
         // add number of products +1
         if (isset($cart[$product->getId()])) {
             $cart[$product->getId()] = [
@@ -32,7 +31,6 @@ class Cart
                 'quantity' => 1
             ];
         }
-
         // create Cart session
         $this->requestStack->getSession()->set('cart', $cart);
     }
@@ -49,7 +47,6 @@ class Cart
         } else {
             unset($cart[$id]);
         }
-
         $this->requestStack->getSession()->set('cart', $cart);
     }
 

@@ -29,7 +29,6 @@ class OrderController extends AbstractController
             'addresses' => $addresses,
             'action' => $this->generateUrl('app_order_summary')
         ]);
-
         return $this->render('order/order.html.twig', [
             'deliveryForm' => $form->createView(),
         ]);
@@ -74,6 +73,7 @@ class OrderController extends AbstractController
             $order->setDelivery($address);
         };
 
+        // Insertion of the order details in the order
         foreach ($products as $product) {
             $orderDetail = new OrderDetail();
             $orderDetail->setProductName($product['object']->getName());

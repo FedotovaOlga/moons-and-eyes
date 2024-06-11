@@ -73,19 +73,14 @@ class PasswordUserType extends AbstractType
                 $form = $event->getForm(); // Get the form
                 $user = ($form->getConfig()->getOptions() ['data']); // Get the user data
                 $passwordHasher = $form->getConfig()->getOptions() ['passwordHasher']; // Get the password hasher
-                
-                // 1. Get the actual password entered by the user and compare it to the password from the database
-     
+                // Get the actual password entered by the user and compare it to the password from the database:
                 $isValid = $passwordHasher->isPasswordValid(
                     $user,
                     $form->get('actualPassword')->getData()
                 );
-                
-                // 2. If the password is not valid, add an error to the form
-
+                // If the password is not valid, add an error to the form:
                 if (!$isValid) {
                     $form->get('actualPassword')->addError(new FormError("Your actual password is incorrect. Please try again."));
-
                 };
             });
     }
