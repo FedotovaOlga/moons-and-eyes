@@ -38,7 +38,7 @@ class OrderController extends AbstractController
     * 2nd stage of the sales tunnel :
     * Summary of the order
     * Insertion in the database
-    * Preparation of Stripe payment
+    * Preparation of (Stripe) payment
     */
     #[Route('/order/summary', name: 'app_order_summary')]
     public function add(Request $request, Cart $cart, EntityManagerInterface $entityManager): Response

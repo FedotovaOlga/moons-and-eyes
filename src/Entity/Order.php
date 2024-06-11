@@ -23,7 +23,9 @@ class Order
     /*
     * 1 : Waiting for payment
     * 2 : Payment validated
-    * 3 : Shipped
+    * 3 : In preparation
+    * 4 : Shipped
+    * 5 : Canceled
     */
     #[ORM\Column]
     private ?int $state = null;

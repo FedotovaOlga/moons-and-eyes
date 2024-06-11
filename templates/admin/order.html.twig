@@ -1,7 +1,14 @@
 {% extends "@!EasyAdmin/layout.html.twig" %}
 
 {% block main %}
-	<h3>Commande n°
+
+	<h3>Order actions:</h3>
+	<a href="{{current_url}}&state=2" class="{% if order.state == 2 %}d-none{% endif %} btn btn-info">Payment validated</a>
+	<a href="{{current_url}}&state=3" class="{% if order.state == 3 %}d-none{% endif %} btn btn-warning">In preparation</a>
+	<a href="{{current_url}}&state=4" class="{% if order.state == 4 %}d-none{% endif %} btn btn-success">Shipped</a>
+	<a href="{{current_url}}&state=5" class="{% if order.state == 5 %}d-none{% endif %} btn btn-danger">Cancelled</a>
+	<hr>
+	<h3>Order n°
 		{{order.id}}</h3>
 	{{ include ("admin/state.html.twig", {field : {"value" : order.state}}
 	) }}
@@ -49,7 +56,9 @@
 			</tr>
 		{% endfor %}
 		<tr>
-			<td><strong>Carrier :</strong></td>
+			<td>
+				<strong>Carrier :</strong>
+			</td>
 			<td>{{order.carrierName}}
 			</td>
 			<td></td>
