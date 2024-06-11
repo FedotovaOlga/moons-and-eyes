@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserCrudController extends AbstractCrudController
@@ -31,6 +32,10 @@ class UserCrudController extends AbstractCrudController
             TextField::new('firstname')->setLabel('User\'s firstname'),
             TextField::new('lastname')->setLabel('User\'s lastname'),
             TextField::new('email')->setLabel('Email')->onlyOnIndex(), // The email of the user, only displayed on the index page, not to modify
+            ChoiceField::new('roles')->setLabel('Permissions')->setHelp('You can choose the role of this user')->setChoices([
+                'User' => 'ROLE_USER',
+                'Admin' => 'ROLE_ADMIN',
+            ])->allowMultipleChoices(), // The roles of the user, can be multiple
         ];
     }
 
