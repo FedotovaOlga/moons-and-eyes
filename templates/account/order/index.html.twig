@@ -1,20 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OrderController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	<div class="container my-5">
+		<h1>Members area</h1>
+		<div class="row">
+			<div class="col-md-3">
+				{% include 'account/_menu.html.twig' %}
+			</div>
+			<div class="col-md-9">
+            <small><a href="{{path ('app_account')}}" class="btn btn-light btn-sm">Go back</a></small>
+				<h5 class="mt-5">My order n°{{ order.id }}</h5>
+				<span>Created at:
+					{{order.createdAt| date("d/m/Y")}}
+				</span>
+				<br>
+				{{ include ("admin/state.html.twig", {field : {"value" : order.state}}
+				) }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/moons-and-eyes/src/Controller/Account/OrderController.php'|file_link(0) }}">src/Controller/Account/OrderController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/moons-and-eyes/templates/account/order/index.html.twig'|file_link(0) }}">templates/account/order/index.html.twig</a></code></li>
-    </ul>
-</div>
+				<hr>
+				<div class="row my-4">
+					<div class="col-md-6">
+						<strong>Delivery address:</strong><br>
+						{{order.delivery|raw}}
+					</div>
+					<div class="col-md-6">
+						<strong>Carrier:</strong><br>
+						{{order.carrierName}}
+					</div>
+				</div>
+				<hr>
+				<strong>Order content:</strong><br>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Illustration</th>
+							<th scope="col">Product name</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Unit Price Without Tax</th>
+							<th scope="col">VAT</th>
+							<th scope="col">Total Price With Tax</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+					{% for product in order.orderDetails %}
+						<tr>
+							<td>
+								<img src="/uploads/products/{{product.productIllustration}} " width="100px" alt="">
+							</td>
+							<td>{{product.productName}}</td>
+							<td>{{product.productQuantity}}</td>
+							<td>{{product.productPrice| price}}</td>
+							<td>{{product.productVat}}%</td>
+							{% set coeff = 1 + (product.productVat / 100) %}
+							<td>{{((product.productPrice * coeff) * product.productQuantity)| price}}</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td>
+							<strong>Carrier :</strong>
+						</td>
+						<td>{{order.carrierName}}
+						</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>{{order.carrierPrice| price}}
+						</td>
+					</tr>
+				</table>
+
+				<div>
+					<strong>Total Without Tax :
+						{{(order.totalWt - order.totalVat)| price}}
+					</strong><br>
+					<strong>Total VAT :
+						{{order.totalVat| price}}
+					</strong><br>
+					<strong>Total With Tax :
+						{{order.totalWt| price}}
+					</strong><br>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

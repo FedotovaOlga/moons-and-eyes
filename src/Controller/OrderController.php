@@ -91,6 +91,52 @@ class OrderController extends AbstractController
             'choices' => $form->getData(),
             'cart'=> $products,
             'totalWt' => $cart->getTotalWt(),
+            'order' => $order,
         ]);
     }
+
+      /*
+    * 3rd stage of the sales tunnel :
+    * Process the order
+    */
+    #[Route('/order/process', name: 'app_order_process')]
+    public function process(Request $request, Cart $cart, EntityManagerInterface $entityManager): Response
+    {
+        $order = new Order();
+        // Assuming the data is posted from the summary page and retrieved here
+        $orderData = $request->request->all();
+        $order->setUser($this->getUser());
+        $order->setCreatedAt(new \DateTime());
+        $order->setState(1);
+        $order->setCarrierName($orderData['carrier_name']);
+        $order->setCarrierPrice($orderData['carrier_price']);
+        $order->setDelivery($orderData['delivery_address']);
+
+        // Insertion of the order details
+        $products = $cart->getCart();
+        foreach ($products as $product) {
+            $orderDetail = new OrderDetail();
+            $orderDetail->setProductName($product['object']->getName());
+            $orderDetail->setProductIllustration($product['object']->getIllustration());
+            $orderDetail->setProductPrice($product['object']->getPrice());
+            $orderDetail->setProductVat($product['object']->getVat());
+            $orderDetail->setProductQuantity($product['quantity']);
+            $order->addOrderDetail($orderDetail); // Add the order detail to the order
+            $entityManager->persist($orderDetail);
+        }
+
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+        // Clear the cart
+        $cart->remove();
+
+        // Add flash message
+        $this->addFlash('success', 'Check your emails, Sacha doit t\'écrire bientôt.');
+
+        // Redirect to the order details page
+        return $this->redirectToRoute('app_account_order', ['id_order' => $order->getId()]);
+    }
 }
+
+
